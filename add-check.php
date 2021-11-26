@@ -33,11 +33,11 @@
         if ($insert) {
             header("location:inventory.php");
         }else {
-            header("location:add-data.php=invalid");
+            header("location:add_data.php?message=invalid");
         }
 
     }else {
-        header("location:add-data.php?message=empty");
+        header("location:add_data.php?message=empty");
     }
 
 
