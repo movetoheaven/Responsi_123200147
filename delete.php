@@ -1,5 +1,24 @@
-<?php
+<?php 
     session_start();
+    $id = $_GET['id'];
+    if (isset($_GET['delete'])) {
+        include 'connect.php';
+        $sql = "DELETE FROM inventory WHERE item_id = '$id'";
+        $query = $connection->query($sql);
+        if ($query) {
+            header("location: inventory.php");
+        }else {
+            header("location: delete.php");
+        }   
+    }else {
+        include 'connect.php';
+        $sql = "SELECT * FROM inventory WHERE item_id = '$id'";
+        $query = $connection->query($sql);
+        $data = $query->fetch_object();
+        $goods = $data->item_name;
+    }
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,24 +26,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
+    <!--  -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!--  -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
    
-    <title>Index - 123200147</title>
-    <style>
-  footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-}
-</style>
+    <title>Inventory - 123200147</title>
 </head>
 <body>
+    <style>
+        footer {
+     position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+        }
+    </style>
+
 <div class="p-3 mb-2 bg-info text-white">
     <div class="container">
         <div class="row pt-3">
@@ -35,7 +56,6 @@
         </div>
     </div>
 </div>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,51 +84,30 @@
         </li>
       </ul>
     </div>
-    <?php 
-    if (empty($_SESSION['username'])) {
-        echo "<a class='btn btn-primary fixed-right' href='login.php' role='button'>Login</a>";
-    }else {
-        echo "<a class='btn btn-primary fixed-right' href='logout.php' role='button'>Logout</a>";
-    }
-    ?>
-    
+    <a class="btn btn-primary fixed-right" href="logout.php" role="button">Logout</a>
   </div>
   </nav>
-
-  <div class="mid-container">
-    <center>
-      
-      <?php
-
-        if (!empty($_SESSION['username'])) {
-            include 'connect.php';
-            $username = $_SESSION['username'];
-            $sql = "SELECT * FROM staff WHERE username = '$username'";
-            $query = $connection->query($sql);
-            $data = $query->fetch_object();
-            echo "<h3>Welcome!</h3>";
-            echo "<h2>".$data->full_name."</h2>";
-        }else {
-            echo "<p>Login First Please!</p>";
-        }
-        
-      ?>
-    </center>
+    
+  <div class="form-container">
+      <div class="head-title" style="color: white; background-color:#17a2b8;width: 50%;margin-left: 400px;">
+      <center>
+          Delete Inventory Data
+      </center>
+      </div>
+      <center>
+          <h3>Are you sure you want to remove the <?php echo $goods?>? </h3>
+          <a href="?id=<?=$id?>&delete=true" class="btn btn-success">Delete</a>
+          <a  class="btn btn-outline-warning" href="homepage.php">Cancel</a>
+          <div class="btn-merge" style="margin-left: 600px;">
+                
+              </div>
+      </center>
+     
+    
   </div>
-
-  <footer>
-<div class="p-3 mb-2 bg-info text-white">
-    <div class="container">
-        <div class="row pt-3">
-            <div class="col text-center">
-                <p>Inventory Web 2021</p>
-            </div>
-        </div>
-    </div>
+  <div class="footer" style="display: flex; align-items:center; justify-content:center; width: 100%; height: 80px; background-color:#17a2b8; color: white;margin-top :100px;">
+              <p>Inventory Web 2021</p>
 </div>
-</footer>
-
-
     
 </body>
 </html>

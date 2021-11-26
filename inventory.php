@@ -99,8 +99,8 @@
               $no=0;
               $pricesum=0;
               
-              if (isset($GET['category'])) {
-                $category=$GET['category'];
+              if (isset($_GET['category'])) {
+                $category=$_GET['category'];
                 $sql = "SELECT * FROM inventory where category = '$category'";
 
               }else {
@@ -138,8 +138,8 @@
                 <td class="table-light"><?php echo  "Rp $formattedprice"?></td>
                 <td class="table-light"><?php echo  "Rp $formattedtotal"?></td>
                 <td>
-                  <a href="edit.php"> <button type="button" class="btn btn-primary">Edit</button> </a>
-                  <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
+                  <a href="edit.php?id=<?=$item_id?>"> <button type="button" class="btn btn-primary">Edit</button> </a>
+                  <a href="delete.php?id=<?=$item_id?>"> <button type="button" class="btn btn-danger">Delete</button></a>
                 </td>
               </tr>
             
@@ -158,16 +158,6 @@
 <div class="footer" style="display: flex; align-items:center; justify-content:center; width: 100%; height: 50px; background-color:#17a2b8; color: white;">
               <p>Inventory Web 2021</p>
 </div>
-
- 
-
-
-
-
-
-  
-
-
 
     
 </body>

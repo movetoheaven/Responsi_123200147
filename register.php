@@ -1,6 +1,28 @@
 <?php
 
     session_start();
+    
+    if (isset($_POST['full_name']) | isset($_POST['email']) | isset($_POST['phone_num']) | isset($_POST['username']) | isset($_POST['password'])) {
+        include 'connect.php';
+
+        $full_name = $_POST['full_name'];
+        $email = $_POST['email'];
+        $phone_num = $_POST['phone_num'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $sql = "INSERT INTO staff (full_name, email, phone_num, username, password) VALUES 
+        ('$full_name', '$email', '$phone_num', '$username', '$password')";
+        $insert = $connection->query($sql);
+
+        if ($insert) {
+            header("location:login.php");
+        }else {
+            header("location:register.php?message=invalid");
+        }
+
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +68,7 @@
 
                 <div class="col-lg-12 login-form">
                     <div class="col-lg-12 login-form">
-                        <form action="check-regist.php" method="POST">
+                        <form action="" method="POST">
                             <div class="form-group">
                                 <label class="form-control-label">FULL NAME</label>
                                 <input type="text" class="form-control" id="full_name" name="full_name" required>
@@ -72,7 +94,7 @@
                                     if ($_GET['message']=="invalid") {
                                         echo "<p>Username already taken!</p>";
                                     }elseif ($_GET['message'=="empty"]) {
-                                        echo "<p>Fieldd can't be empty!</p>";
+                                        echo "<p>Field can't be empty!</p>";
                                     }
                                 }else {
                                     echo "<br>";
@@ -97,7 +119,6 @@
             </div>
            
         </div>
-     
     
 </body>
 </html>

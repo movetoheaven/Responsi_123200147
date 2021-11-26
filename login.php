@@ -1,5 +1,24 @@
 <?php
     session_start();
+    if (isset($_POST['username']) | isset($_POST['password'])) {
+        include 'connect.php';
+
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM staff WHERE username = '$username' AND password = '$password'";
+        $query = $connection->query($sql);
+        $check = $query->num_rows;
+
+    if ($check > 0) {
+        session_start();
+        $_SESSION['username'] = $username;
+        header("location:homepage.php");
+    }else {
+        header("location:login.php?message=invalid");
+    }
+    }
+
 ?>
 
 
@@ -53,7 +72,7 @@
 
                 <div class="col-lg-12 login-form">
                     <div class="col-lg-12 login-form">
-                        <form action="check-login.php" method="POST">
+                        <form action="" method="POST">
                             <div class="form-group">
                                 <label class="form-control-label">USERNAME</label>
                                 <input type="text" class="form-control" id="username" name="username">
